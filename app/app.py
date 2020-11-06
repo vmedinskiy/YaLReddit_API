@@ -1,5 +1,5 @@
 from datetime import timedelta
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, jsonify
 
 from posts.sqlite_repo import SqlitePostsRepo
 from tools.my_json_encoder import MyJSONEncoder
@@ -28,3 +28,20 @@ class MyApp(Flask):
 
 
 main_app = MyApp(__name__, static_folder="./../static")
+
+
+@main_app.jwt.expired_token_loader
+def my_expired_token_callback():
+    err_json = {
+        "message": "expired token"
+    }
+    return jsonify(err_json), 401
+
+
+@main_app.jwt.invalid_token_loader
+@main_app.jwt.unauthorized_loader
+def my_inv_unauth_token_callback(why):
+    err_json = {
+        "message": why
+    }
+    return jsonify(err_json), 401
