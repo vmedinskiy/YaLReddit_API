@@ -29,7 +29,7 @@ class SqlitePostsRepo(post.PostRepo):
        P.views,
        P.url, P.created
     FROM posts P
-         LEFT JOIN users U on P.author = U.id"""
+         LEFT JOIN users U on P.author = U.id order by P.created DESC"""
         con, cur = get_connection_cursor(self.name)
         results = cur.execute(query).fetchall()
         res = list()
@@ -52,7 +52,7 @@ class SqlitePostsRepo(post.PostRepo):
        P.url, P.created
     FROM posts P
          LEFT JOIN users U on P.author = U.id
-                            WHERE P.id = ?"""
+                            WHERE P.id = ? order by P.created DESC"""
         con, cur = get_connection_cursor(self.name)
         result = cur.execute(query, (id,)).fetchone()
         if result is None:
@@ -75,7 +75,7 @@ class SqlitePostsRepo(post.PostRepo):
                P.url, P.created
             FROM posts P
                  LEFT JOIN users U on P.author = U.id
-                 WHERE author_name= ?"""
+                 WHERE author_name= ? order by P.created DESC"""
         con, cur = get_connection_cursor(self.name)
         results = cur.execute(query, (login,)).fetchall()
         res = list()
@@ -98,7 +98,7 @@ class SqlitePostsRepo(post.PostRepo):
                        P.url, P.created
                     FROM posts P
                          LEFT JOIN users U on P.author = U.id
-                         WHERE P.category= ?"""
+                         WHERE P.category= ? order by P.created DESC"""
         con, cur = get_connection_cursor(self.name)
         results = cur.execute(query, (cat,)).fetchall()
         res = list()
