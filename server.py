@@ -1,3 +1,4 @@
+from waitress import serve
 from api.posts import PostListRes, PostRes
 from api.users import RegisterRes, LoginRes, UserPosts
 from app.app import main_app
@@ -17,4 +18,5 @@ main_app.api.add_resource(PostRes, '/api/post/<int:post_id>')
 main_app.api.add_resource(UserPosts, "/api/user/<user_login>")
 
 if __name__ == '__main__':
-    main_app.run()
+    # main_app.run()
+    serve(main_app, host="0.0.0.0", port=8000)
